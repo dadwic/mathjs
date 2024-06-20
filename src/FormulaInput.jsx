@@ -1,11 +1,12 @@
 // FormulaInput.js
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import useStore from "./store";
 import { useTags } from "./api";
 import { Autocomplete, TextField, Chip, Box, Typography } from "@mui/material";
 import { evaluate } from "mathjs";
 
 const FormulaInput = () => {
+  const autocompleteRef = useRef(null);
   const { tags, addTag, removeTag, updateTag } = useStore();
   const { data: suggestions } = useTags();
   const [inputValue, setInputValue] = useState("");
@@ -21,7 +22,7 @@ const FormulaInput = () => {
         setError(null);
       } catch (err) {
         setResult(null);
-        setError("Error in formula");
+        setError("Error in formula (use operators between tags)");
       }
     };
 
@@ -36,6 +37,7 @@ const FormulaInput = () => {
     if (newValue) {
       addTag(newValue);
       setInputValue("");
+      autocompleteRef.current.clear();
     }
   };
 
@@ -65,6 +67,7 @@ const FormulaInput = () => {
       </Box>
       <Autocomplete
         freeSolo
+        ref={autocompleteRef}
         options={suggestions || []}
         getOptionLabel={(option) => option.name}
         inputValue={inputValue}
