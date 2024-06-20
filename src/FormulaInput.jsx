@@ -80,9 +80,9 @@ const FormulaInput = () => {
                 e.preventDefault();
                 handleAddTag(null, {
                   name: inputValue,
+                  value: inputValue,
                   id: `${Date.now()}`,
                   category: "",
-                  value: 0,
                 });
               }
             }}
