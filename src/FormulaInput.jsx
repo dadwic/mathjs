@@ -29,13 +29,23 @@ const FormulaInput = () => {
     calculateFormula();
   }, [tags]);
 
-  const handleInputChange = (event, newInputValue) => {
+  const handleInputChange = (_, newInputValue) => {
     setInputValue(newInputValue);
   };
 
-  const handleAddTag = (event, newValue) => {
+  const handleAddTag = (e, newValue) => {
     if (newValue) {
-      addTag(newValue);
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addTag({
+          name: newValue,
+          value: newValue,
+          id: `${Date.now()}`,
+          category: "",
+        });
+      } else {
+        addTag(newValue);
+      }
       setInputValue("");
       autocompleteRef.current.clear();
     }
@@ -74,22 +84,7 @@ const FormulaInput = () => {
         onInputChange={handleInputChange}
         onChange={handleAddTag}
         renderInput={(params) => (
-          <TextField
-            {...params}
-            label="Add Tag"
-            variant="filled"
-            onKeyDown={(e) => {
-              if (e.key === "Enter") {
-                e.preventDefault();
-                handleAddTag(null, {
-                  name: inputValue,
-                  value: inputValue,
-                  id: `${Date.now()}`,
-                  category: "",
-                });
-              }
-            }}
-          />
+          <TextField {...params} label="Add Tag" variant="filled" />
         )}
       />
       {result !== null && (
