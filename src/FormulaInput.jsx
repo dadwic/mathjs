@@ -51,9 +51,9 @@ const FormulaInput = () => {
             key={tag.id}
             label={
               <TextField
-                value={tag.name}
+                value={tag.value}
                 onChange={(e) =>
-                  updateTag(index, { ...tag, name: e.target.value })
+                  updateTag(index, { ...tag, value: e.target.value })
                 }
                 variant="standard"
                 size="small"
@@ -74,7 +74,7 @@ const FormulaInput = () => {
           <TextField
             {...params}
             label="Add Tag"
-            variant="outlined"
+            variant="filled"
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 e.preventDefault();
